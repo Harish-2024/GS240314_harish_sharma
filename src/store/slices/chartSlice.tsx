@@ -14,7 +14,6 @@ export const chartSlice = createSlice({
   initialState,
   reducers: {
     setChartData: (state, action: PayloadAction<ChartData[]>) => {
-      console.log(action.payload,"=============");
       state.data = action.payload;
     }
   }

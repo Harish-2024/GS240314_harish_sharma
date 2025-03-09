@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Avatar, Dropdown, Layout, Menu, theme, Typography  } from "antd";
 import styles from './style.module.css';
 import Logo from "../assets/Gsynergy Logo.svg";
 import { items } from './items';
@@ -7,26 +7,43 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { readExcelFile } from '../utils';
 import { useDispatch } from 'react-redux';
 import { setChartData } from '../store/slices/chartSlice';
+import { setCalculationData } from '../store/slices/calculation';
+import { setCalendarData } from '../store/slices/calendarSlice';
+import { setStoreData } from '../store/slices/storeSlice';
+import { setSkuData } from '../store/slices/skuSlice';
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Header, Content, Sider } = Layout;
+const { Title } = Typography;
 
 const MainLayout: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [xlData, setXlData] = useState<Record<string, any[]> | null>(null);
-  const selectedKey = items.find(item => item.path === location.pathname)?.key;
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="signout" icon={<LogoutOutlined />}>
+        Sign Out
+      </Menu.Item>
+    </Menu>
+  );
+
+  const selectedKey = items.find(item => location.pathname.includes(item.path))?.key;
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  console.log(xlData);
   const fetchExcelData = async () => {
     try {
       const jsonData = await readExcelFile("/SampleData.xlsx");
       if (jsonData) {
-        setXlData(jsonData);
         dispatch(setChartData(jsonData.Chart))
+        dispatch(setCalculationData(jsonData.Calculations))
+        dispatch(setCalendarData(jsonData.Calendar))
+        dispatch(setStoreData(jsonData.Stores));
+        dispatch(setSkuData(jsonData.SKUs));
       }
     } catch (error) {
       console.error("Error reading Excel file:", error);
@@ -43,12 +60,6 @@ const MainLayout: React.FC = () => {
         style={{ background: colorBgContainer }}
         breakpoint="lg"
         collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <div className={styles.demoLogoVertical}>
           <img src={Logo} alt="logo" />
@@ -66,7 +77,36 @@ const MainLayout: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+      <Header
+          style={{
+            background: "#fff",
+            display: "flex",
+            alignItems: "center",
+            padding: "0 20px",
+          }}
+        >
+          <div style={{ flex: 1 }}></div>
+          <Title
+            level={3}
+            style={{
+              flex: 1,
+              textAlign: "center",
+              margin: 0,
+              fontWeight: "bold",
+            }}
+          >
+            DATA VIEWER APP
+          </Title>
+          <div style={{ flex: 1, textAlign: "right" }}>
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <Avatar
+                size="large"
+                icon={<UserOutlined />}
+                style={{ cursor: "pointer" }}
+              />
+            </Dropdown>
+          </div>
+        </Header>
         <Content style={{ margin: '10px 10px 0' }}>
           <div
             style={{

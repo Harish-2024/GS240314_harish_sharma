@@ -6,24 +6,24 @@ export const items = [
         label: 'Store',
         key: 'store',
         icon: <AppstoreAddOutlined />,
-        path: '/store'
+        path: 'store'
     },
     {
         label: 'SKU',
         key: 'sku',
         icon: <RadarChartOutlined />,
-        path: '/sku'
+        path: 'sku'
     },
     {
         label: 'Planning',
         key: 'planning',
         icon: <BarChartOutlined />,
-        path: '/planning'
+        path: 'planning'
     },
     {
         label: 'Charts',
         key: 'charts',
         icon: <AreaChartOutlined />,
-        path: '/charts'
+        path: 'charts'
     },
 ];

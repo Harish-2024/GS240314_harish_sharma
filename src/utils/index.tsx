@@ -11,8 +11,6 @@ export const readExcelFile = async (filePath: string): Promise<Record<string, an
         try {
           const data = new Uint8Array(e.target?.result as ArrayBuffer);
           const workbook = XLSX.read(data, { type: "array" });
-
-          // Convert each sheet to JSON
           const sheetsJson: Record<string, any[]> = {};
           workbook.SheetNames.forEach((sheetName) => {
             const sheet = workbook.Sheets[sheetName];
@@ -24,7 +22,6 @@ export const readExcelFile = async (filePath: string): Promise<Record<string, an
           reject(error);
         }
       };
-
       reader.readAsArrayBuffer(blob);
     });
   } catch (error) {
