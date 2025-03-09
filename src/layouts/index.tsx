@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, Dropdown, Layout, Menu, theme, Typography  } from "antd";
 import styles from './style.module.css';
 import Logo from "../assets/Gsynergy Logo.svg";
