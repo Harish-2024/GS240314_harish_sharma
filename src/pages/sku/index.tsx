@@ -27,11 +27,11 @@ const Sku = () => {
 
   useEffect(() => {
     if (skuData?.length) {
-      const formattedData = skuData.map((item: any) => ({
+      const formattedData = skuData.map((item: SkuData) => ({
         id: item.id,
         label: item.label,
-        price: item.price,
-        cost: item.cost,
+        price: `$ ${item.price.toFixed(2)}`,
+        cost: `$ ${item.cost.toFixed(2)}`,
       }));
       setRowData(formattedData);
     }
@@ -80,13 +80,13 @@ const Sku = () => {
   return (
     <div style={containerStyle}>
       <div className="example-wrapper">
-        <div className="ag-theme-alpine" style={{ height: "500px", width: "100%" }}>
+        <div className="ag-theme-alpine" style={{ height: "450px", width: "100%" }}>
           <AgGridReact ref={gridRef} rowData={rowData} columnDefs={columnDefs} />
         </div>
         <div>
           <Button
             style={{
-              marginTop: 10,
+              marginTop: 20,
               background: "#ff7f50",
               border: "none",
               fontSize: "16px",

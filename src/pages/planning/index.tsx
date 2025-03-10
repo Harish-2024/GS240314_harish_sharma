@@ -16,16 +16,32 @@ const Planning = () => {
     { headerName: "SKU", field: "sku", pinned: "left", width: 100 },
     ...monthNames.map((month) => ({
       headerName: month,
-      pinned: "center",
+      pinned: "right",
       children: calendar
         .filter((week) => week.monthLabel === month)
         .map((week) => ({
           headerName: `Week ${week.week.slice(1)}`,
           children: [
-            { headerName: "Sales Unit", field: `sales_unit_${week.week}`, width: 120 },
-            { headerName: "Sales Dollars", field: `sales_dollars_${week.week}`, width: 120 },
-            { headerName: "GM Dollars", field: `gm_dollars_${week.week}`, width: 120 },
-            { headerName: "GM Percent", field: `gm_pecentage_${week.week}`, width: 120 },
+            {
+              headerName: "Sales Unit",
+              valueGetter: (p: any) => p.data[`sales_unit_${week.week}`] || 0,
+              width: 120
+            },
+            {
+              headerName: "Sales Dollars",
+              valueGetter: (p: any) => p.data[`sales_dollars_${week.week}`] || "$ 0",
+              width: 120
+            },
+            {
+              headerName: "GM Dollars",
+              valueGetter: (p:any) => p.data[`gm_dollars_${week.week}`] || "$ 0",
+              width: 120
+            },
+            {
+              headerName: "GM Percent",
+              valueGetter: (p:any) => p.data[`gm_pecentage_${week.week}`] || "0%",
+              width: 120
+            },
           ],
         })),
     }))
